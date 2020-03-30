@@ -1,4 +1,5 @@
 import { html, render } from './external/lit-html/lit-html.js';
+import { MY_TABLE_ADD_ENTRY_EVENT } from './my-list.js';
 
 const template = app => html`
             <h2>Hello ${app.name}</h2>
@@ -23,11 +24,18 @@ class App extends HTMLElement {
 
     clicked() {
         console.log("clicked button with name: " + this.name);
-        render(template(this), this.root)
+        render(template(this), this.root);
+
+        this.dispatchMyTableAddEntryEvent();
     }
 
     onInput(text) {
         this.name = text;
+    }
+
+    dispatchMyTableAddEntryEvent() {
+        const fetchEvent = new CustomEvent(MY_TABLE_ADD_ENTRY_EVENT, { detail: this.name });
+        window.dispatchEvent(fetchEvent);
     }
 }
 
